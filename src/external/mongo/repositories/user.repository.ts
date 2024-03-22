@@ -44,7 +44,7 @@ export class UsuarioRepositoryInMongo implements IUsuarioGateway {
 		}
 
 		if (usuario.password === this.hashPassword(password, usuario.salt)) {
-			const token = jwt.sign({ userId: usuario.salt,  }, jwtSecret!, { expiresIn: '1h' });
+			const token = jwt.sign({ userId: usuario._id }, jwtSecret!, { expiresIn: '1h' });
 			return { token };
 		}
 
