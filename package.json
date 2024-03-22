@@ -1,0 +1,37 @@
+{
+  "name": "hackathon-fiap",
+  "version": "1.0.0",
+  "description": "Projeto destinado ao hackathon do curso de PÓS GRADUAÇÃO EM ARQUITETURA DE SOFTWARE",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fanticheli/hackathon-fiap.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fanticheli/hackathon-fiap/issues"
+  },
+  "homepage": "https://github.com/fanticheli/hackathon-fiap#readme",
+  "dependencies": {
+    "@types/mongoose": "^5.11.97",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.2.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.11.30",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  }
+}
