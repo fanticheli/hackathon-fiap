@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-app-deployment-hackathon
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: express-app-hackathon
+  template:
+    metadata:
+      labels:
+        app: express-app-hackathon
+    spec:
+      containers:
+        - name: express-container-hackathon
+          image: acrhackathon.azurecr.io/fiaphackathon:{{.Values.imageTag}}
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "250m"
+              cpu: "256Mi"
+          limits:
+            memory: "500m"
+            cpu: "512Mi"
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: hackathon-configmap
+                  key: MONGO_URI
+            - name: JWT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: hackathon-configmap
+                  key: JWT_SECRET
+            - name: SALT_PONTO
+              valueFrom:
+                configMapKeyRef:
+                  name: hackathon-configmap
+                  key: SALT_PONTO
+            - name: EMAIL_FROM
+              valueFrom:
+                configMapKeyRef:
+                  name: hackathon-configmap
+                  key: EMAIL_FROM
+            - name: PASSWORD_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: hackathon-configmap
+                  key: PASSWORD_EMAIL

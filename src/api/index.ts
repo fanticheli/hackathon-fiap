@@ -12,7 +12,7 @@ export class NoPonto {
 		const pontoRoutes = require("./routes/ponto");
 
 		app.use("/auth", authRoutes);
-		app.use("/ponto", pontoRoutes);
+		app.use("/pontos", pontoRoutes);
 
 		app.listen(PORT, () => {
 			console.log(`No ponto listening on port ${PORT}`);

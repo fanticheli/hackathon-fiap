@@ -1,0 +1,54 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set up Docker Buildx
+        run: |
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sh get-docker.sh
+          docker buildx create --use
+        shell: bash
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t acrhackathon.azurecr.io/fiaphackathon:${{ github.sha }} .
+          docker login acrhackathon.azurecr.io -u acrhackathon -p ${{ secrets.ACR_PASSWORD }}
+          docker push acrhackathon.azurecr.io/fiaphackathon:${{ github.sha }}
+        env:
+          ACR_REGISTRY: acrhackathon.azurecr.io
+          ACR_REPOSITORY: fiaphackathon
+        shell: bash
+
+      - name: Replace image tag in Kubernetes manifest
+        run: |
+          sed -i "s/{{.Values.imageTag}}/${{ github.sha }}/g" ./k8s/deployment.yaml
+      
+      - name: Set up kubectl
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          cluster-name: kubernetes_cluster
+          resource-group: resource_hackathon
+
+      - name: Deploy to AKS
+        run: |
+          kubectl apply -f ./k8s --force
+
+      - name: Logout from Azure
+        run: az logout

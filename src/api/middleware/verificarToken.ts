@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 
 interface RequestComUsuario extends Request {
     usuarioId?: string;
+    email?: string;
 }
 
 export const verificarToken = (req: RequestComUsuario, res: Response, next: NextFunction) => {
@@ -15,6 +16,7 @@ export const verificarToken = (req: RequestComUsuario, res: Response, next: Next
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload;
         req.usuarioId = decoded.userId;
+        req.email = decoded.email;
         next();
     } catch (error) {
         return res.status(401).send({ mensagem: 'Token inválido.' });
