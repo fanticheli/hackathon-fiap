@@ -9,6 +9,7 @@ interface IUsuarioDocument extends Document {
     authenticate: (password: string) => boolean;
 }
 
+const personas = mongoose.connection.useDb('personas');
 const UsuarioSchema: Schema<IUsuarioDocument> = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -21,5 +22,5 @@ UsuarioSchema.index({
     unique: true
 });
 
-const Usuario = mongoose.model<IUsuarioDocument>('Usuario', UsuarioSchema);
+const Usuario = personas.model<IUsuarioDocument>('Usuario', UsuarioSchema);
 export default Usuario;
