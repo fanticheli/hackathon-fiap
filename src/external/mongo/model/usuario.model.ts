@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import mongoose, { Schema, Document } from 'mongoose';
 
 interface IUsuarioDocument extends Document {
