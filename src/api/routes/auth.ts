@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import { UsuarioRepositoryInMongo } from "../../../external/mongo/repositories/user.repository";
-import { UsuarioController } from "../../../controllers/usuario.controller";
-import { verificarToken } from "../../middleware/verificarToken";
+import { UsuarioRepositoryInMongo } from "../../external/mongo/repositories/user.repository";
+import { UsuarioController } from "../../controllers/usuario.controller";
+import { verificarToken } from "../middleware/verificarToken";
 
 const router = express.Router();
 const usuarioRepositoryInMongo = new UsuarioRepositoryInMongo();
@@ -17,7 +17,9 @@ const usuarioRepositoryInMongo = new UsuarioRepositoryInMongo();
  * /auth/register:
  *   post:
  *     summary: Cria um novo Usuário.
- *     tags: [Usuario]
+ *     tags: [Authorization]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -42,7 +44,7 @@ router.post("/register", verificarToken, async (req: Request, res: Response) => 
 		req.body
 	)
 		.then((response: any) => {
-			res.status(201).send("Usuário criado com sucesso.");
+			res.status(201).send({ message: "Usuário criado com sucesso." });
 		})
 		.catch((err: any) => {
 			res.status(400).send({ message: err?.message });
@@ -54,7 +56,7 @@ router.post("/register", verificarToken, async (req: Request, res: Response) => 
  * /auth/signin:
  *   post:
  *     summary: Faz login de um Usuário
- *     tags: [Usuario]
+ *     tags: [Authorization]
  *     requestBody:
  *       required: true
  *       content:

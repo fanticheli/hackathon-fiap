@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import { verificarToken } from "../../middleware/verificarToken";
-import { PontoRepositoryInMongo } from "../../../external/mongo/repositories/ponto.repository";
-import { PontoController } from "../../../controllers/ponto.controller";
+import { verificarToken } from "../middleware/verificarToken";
+import { PontoRepositoryInMongo } from "../../external/mongo/repositories/ponto.repository";
+import { PontoController } from "../../controllers/ponto.controller";
 
 interface RequestComUsuario extends Request {
 	usuarioId?: string;
@@ -21,25 +21,15 @@ const pontoRepositoryInMongo = new PontoRepositoryInMongo();
  * @swagger
  * /pontos/register:
  *   post:
- *     summary: Cria um novo Usuário.
- *     tags: [Usuario]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *             example:
- *               email: "sample@sample.com.br"
- *               password: "teste123"
+ *     summary: Bater o ponto.
+ *     tags: [Pontos]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       201:
- *         description: Usuário criado com sucesso.
+ *         description: Ponto batido com sucesso!!!
+ *       403:
+ *         description: Token de autenticação necessário.
  */
 router.post("/register", verificarToken, async (req: RequestComUsuario, res: Response) => {
 	if (!req.usuarioId) return res.status(400).send({ message: "Ops, algo deu errado." });
@@ -55,10 +45,12 @@ router.post("/register", verificarToken, async (req: RequestComUsuario, res: Res
 
 /**
  * @swagger
- * /pontos/register:
+ * /pontos/registers:
  *   get:
  *     summary: Lista registro de colaborador.
- *     tags: [Colaborador, Registros, Entradas, Saidas]
+ *     tags: [Pontos]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de registros.
@@ -77,10 +69,12 @@ router.get("/registers", verificarToken, async (req: RequestComUsuario, res: Res
 
 /**
  * @swagger
- * /pontos/register/email:
+ * /pontos/registers/email:
  *   get:
  *     summary: Lista registro de colaborador e envia para o email.
- *     tags: [Colaborador, Registros, Entradas, Saidas, Email]
+ *     tags: [Pontos]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de registros no email.
