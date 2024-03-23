@@ -17,13 +17,6 @@ spec:
           image: acrhackathon.azurecr.io/fiaphackathon:{{.Values.imageTag}}
           ports:
             - containerPort: 3000
-          resources:
-            requests:
-              memory: "250m"
-              cpu: "256Mi"
-          limits:
-            memory: "500m"
-            cpu: "512Mi"
           env:
             - name: MONGO_URI
               valueFrom:
